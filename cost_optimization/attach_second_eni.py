@@ -1,4 +1,5 @@
-s program queries all servers in the AWS account
+"""
+This program queries all servers in the AWS account
 that dont have a second network attached.
 Program attach the correct AZ ENI.
 It only attach the interface to running instances
