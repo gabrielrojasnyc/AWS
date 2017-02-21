@@ -1,0 +1,49 @@
+{
+    "variables" : {
+        "aws_access_key" : "xxxxxxxxxxxxxxxxxxx",
+        "aws_secret_key" : "XxxxxxxxtCXOSmDbOx5V1zBORv+"
+    },
+
+    "builders" : [
+        {
+            "type" : "amazon-ebs",
+            "region" : "us-east-1",
+            "source_ami" : "ami-2051294a",
+            "instance_type" : "t2.micro",
+            "communicator" : "ssh",
+            "access_key" : "xxxxxxxxxxxxxxxxxx",
+            "secret_key" : "xxxxxxxxxxxxxxxxxxxxxxCDD36CSWa/zRxAN58yB7xV",
+            "ssh_username" : "ec2-user",
+            "ssh_timeout" : "10m",
+            "ssh_pty" : "true",
+            "ami_name" : "RhelBase-{{isotime | clean_ami_name}}",
+            "ami_description" : "AMI test Packer",
+            
+            "tags" : {
+                "Role" : "Your company"
+            },
+
+            "run_tags" : {
+                "role" : "BuildSystem"
+            }
+        }
+    ],
+
+    "provisioners" : [
+        {
+            "type" : "file",
+                "source" : "chef-12.15.19-1.el7.x86_64.rpm",
+                "destination" : "/tmp/chef-client.rpm"
+        },
+
+        {
+            "type" : "shell",
+                "inline" : [
+                    "sudo rpm -Uvh /tmp/chef-client.rpm",
+                    "sudo yum update -y"
+                ]
+                
+        }
+    ]
+
+}
